@@ -1,0 +1,23 @@
+{
+  "name": "Course Completion Certificate",
+  "description": "A non-fungible token (NFT) representing the successful completion of a course.",
+  "image": "bafybeibedpssje5abtrhj6ewgijxm6x5wpyekgjtvs2gy5aeaqa73twptq",
+  "attributes": [
+    {
+      "trait_type": "Course Name",
+      "value": "Introduction to Blockchain Development"
+    },
+    {
+      "trait_type": "Recipient",
+      "value": "John Doe"
+    },
+    {
+      "trait_type": "Issue Date",
+      "value": "2025-07-04"
+    },
+    {
+      "trait_type": "Certificate ID",
+      "value": "CERT-001"
+    }
+  ]
+}
