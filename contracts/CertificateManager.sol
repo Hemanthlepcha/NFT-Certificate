@@ -17,8 +17,16 @@ contract CourseManager is Ownable {
     mapping(address => mapping(uint256 => bool)) public hasReceivedCertificate; // user => courseId => bool
 
     event CourseAdded(uint256 indexed courseId, uint256 minCoinsRequired);
-    event CoinRewarded(address indexed user, uint256 indexed courseId, uint256 newCoinCount);
-    event CertificateMinted(address indexed user, uint256 indexed courseId, uint256 tokenId);
+    event CoinRewarded(
+        address indexed user,
+        uint256 indexed courseId,
+        uint256 newCoinCount
+    );
+    event CertificateMinted(
+        address indexed user,
+        uint256 indexed courseId,
+        uint256 tokenId
+    );
 
     constructor(address certificateAddress) Ownable(msg.sender) {
         certificate = CertificateNFT(certificateAddress);
@@ -33,17 +41,31 @@ contract CourseManager is Ownable {
         emit CourseAdded(courseId, minCoinsRequired);
     }
 
-    function rewardCoin(address user, uint256 courseId, bool isCorrect) external {
+    function rewardCoin(
+        address user,
+        uint256 courseId,
+        bool isCorrect
+    ) external {
         require(courses[courseId].exists, "Invalid course");
         require(isCorrect, "Answer must be correct to reward coin");
         userCourseCoins[user][courseId]++;
         emit CoinRewarded(user, courseId, userCourseCoins[user][courseId]);
     }
 
-    function claimCertificate(uint256 courseId, string memory tokenURI) external {
+    function claimCertificate(
+        uint256 courseId,
+        string memory tokenURI
+    ) external {
         require(courses[courseId].exists, "Invalid course");
-        require(!hasReceivedCertificate[msg.sender][courseId], "Already received");
-        require(userCourseCoins[msg.sender][courseId] >= courses[courseId].minCoinsRequired, "Not enough coins");
+        require(
+            !hasReceivedCertificate[msg.sender][courseId],
+            "Already received"
+        );
+        require(
+            userCourseCoins[msg.sender][courseId] >=
+                courses[courseId].minCoinsRequired,
+            "Not enough coins"
+        );
 
         // Mint new NFT for the user
         uint256 tokenId = certificate.mintCertificate(msg.sender, tokenURI);
@@ -52,16 +74,20 @@ contract CourseManager is Ownable {
         emit CertificateMinted(msg.sender, courseId, tokenId);
     }
 
-    function getUserCoins(address user, uint256 courseId) external view returns (uint256) {
+    function getUserCoins(
+        address user,
+        uint256 courseId
+    ) external view returns (uint256) {
         return userCourseCoins[user][courseId];
     }
 
-    function canClaimCertificate(address user, uint256 courseId) external view returns (bool) {
+    function canClaimCertificate(
+        address user,
+        uint256 courseId
+    ) external view returns (bool) {
         Course memory course = courses[courseId];
-        return (
-            course.exists &&
+        return (course.exists &&
             !hasReceivedCertificate[user][courseId] &&
-            userCourseCoins[user][courseId] >= course.minCoinsRequired
-        );
+            userCourseCoins[user][courseId] >= course.minCoinsRequired);
     }
 }

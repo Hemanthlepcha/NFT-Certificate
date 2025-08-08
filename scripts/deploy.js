@@ -6,23 +6,23 @@ async function main() {
 
   const [deployer] = await ethers.getSigners();
   console.log("👤 Deployer:", deployer.address);
-  console.log("💰 Balance:", ethers.formatEther(await ethers.provider.getBalance(deployer.address)), "ETH");
+  console.log("💰 Balance:", ethers.utils.formatEther(await ethers.provider.getBalance(deployer.address)), "ETH");
 
   try {
     // 1. Deploy CertificateNFT with deployer as initial owner
     console.log("\n📜 Deploying CertificateNFT...");
     const CertificateNFT = await ethers.getContractFactory("CertificateNFT");
     const certificateNFT = await CertificateNFT.deploy(deployer.address);
-    await certificateNFT.waitForDeployment();
-    const certificateAddress = await certificateNFT.getAddress();
+    await certificateNFT.deployed();  // ✅ v5 equivalent
+    const certificateAddress = certificateNFT.address;  // ✅ v5 equivalent
     console.log("✅ CertificateNFT deployed to:", certificateAddress);
 
     // 2. Deploy CourseManager
     console.log("\n🎓 Deploying CourseManager...");
     const CourseManager = await ethers.getContractFactory("CourseManager");
     const courseManager = await CourseManager.deploy(certificateAddress);
-    await courseManager.waitForDeployment();
-    const courseManagerAddress = await courseManager.getAddress();
+    await courseManager.deployed();  // ✅ v5 equivalent
+    const courseManagerAddress = courseManager.address;  // ✅ v5 equivalent
     console.log("✅ CourseManager deployed to:", courseManagerAddress);
 
     // 3. Transfer ownership of CertificateNFT to CourseManager
@@ -61,7 +61,7 @@ async function main() {
       deployer: deployer.address,
       timestamp: new Date().toISOString()
     };
-    
+
     fs.writeFileSync('deployed-addresses.json', JSON.stringify(addresses, null, 2));
     console.log("\n💾 Addresses saved to deployed-addresses.json");
 
@@ -73,6 +73,7 @@ async function main() {
     console.error("Full error:", error);
     process.exit(1);
   }
+
 }
 
 main()

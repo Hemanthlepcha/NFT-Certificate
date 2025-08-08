@@ -1,6 +1,6 @@
 export const CONTRACT_ADDRESSES = {
-  courseManager: "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
-  certificateNFT: "0x5FbDB2315678afecb367f032d93F642f64180aa3"
+  courseManager: "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9",
+  certificateNFT: "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9"
 };
 
 export const COURSE_MANAGER_ABI = [
@@ -11,12 +11,12 @@ export const COURSE_MANAGER_ABI = [
   "function courses(uint256 courseId) view returns (uint256 minCoinsRequired, bool exists)",
   "function owner() view returns (address)",
   "function certificate() view returns (address)",
-  
+
   // Write functions
   "function addCourse(uint256 courseId, uint256 minCoinsRequired) external",
-  "function rewardCoin(address user, uint256 courseId, bool isCorrect) external", 
+  "function rewardCoin(address user, uint256 courseId, bool isCorrect) external",
   "function claimCertificate(uint256 courseId, string tokenURI) external",
-  
+
   // Events
   "event CourseAdded(uint256 indexed courseId, uint256 minCoinsRequired)",
   "event CoinRewarded(address indexed user, uint256 indexed courseId, uint256 newCoinCount)",
@@ -27,17 +27,27 @@ export const CERTIFICATE_NFT_ABI = [
   // View functions
   "function balanceOf(address owner) view returns (uint256)",
   "function tokenOfOwnerByIndex(address owner, uint256 index) view returns (uint256)",
+  "function tokenByIndex(uint256 index) view returns (uint256)",
   "function tokenURI(uint256 tokenId) view returns (string)",
   "function ownerOf(uint256 tokenId) view returns (address)",
   "function owner() view returns (address)",
   "function totalSupply() view returns (uint256)",
-  
+  "function supportsInterface(bytes4 interfaceId) view returns (bool)",
+
   // Write functions
   "function mintCertificate(address recipient, string tokenURI) external returns (uint256)",
   "function transferOwnership(address newOwner) external",
-  
+  "function approve(address to, uint256 tokenId) external",
+  "function setApprovalForAll(address operator, bool approved) external",
+  "function transferFrom(address from, address to, uint256 tokenId) external",
+  "function safeTransferFrom(address from, address to, uint256 tokenId) external",
+  "function safeTransferFrom(address from, address to, uint256 tokenId, bytes data) external",
+
   // Events
-  "event Transfer(address indexed from, address indexed to, uint256 indexed tokenId)"
+  "event Transfer(address indexed from, address indexed to, uint256 indexed tokenId)",
+  "event Approval(address indexed owner, address indexed approved, uint256 indexed tokenId)",
+  "event ApprovalForAll(address indexed owner, address indexed operator, bool approved)",
+  "event OwnershipTransferred(address indexed previousOwner, address indexed newOwner)"
 ];
 
 export const SUPPORTED_NETWORKS = {

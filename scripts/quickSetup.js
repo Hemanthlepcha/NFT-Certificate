@@ -5,12 +5,12 @@ async function main() {
   console.log("🚀 Quick setup for Course Platform...");
 
   // Your deployed contract address
-  const COURSE_MANAGER_ADDRESS = "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512";
+  const COURSE_MANAGER_ADDRESS = "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9";
 
   // Get the contract
   const CourseManager = await ethers.getContractFactory("CourseManager");
   const courseManager = CourseManager.attach(COURSE_MANAGER_ADDRESS);
-  
+
   const [owner] = await ethers.getSigners();
   console.log("👤 Using account:", owner.address);
 
@@ -18,7 +18,7 @@ async function main() {
     // First verify contract exists
     console.log("\n🔍 Verifying contract...");
     const code = await ethers.provider.getCode(COURSE_MANAGER_ADDRESS);
-    
+
     if (code === "0x") {
       throw new Error("No contract deployed at address: " + COURSE_MANAGER_ADDRESS);
     }
@@ -39,7 +39,7 @@ async function main() {
 
     // Add courses with better error handling
     console.log("\n📚 Adding courses...");
-    
+
     try {
       console.log("Adding Course 1...");
       const tx1 = await courseManager.addCourse(1, 5);
@@ -53,7 +53,7 @@ async function main() {
         throw error;
       }
     }
-    
+
     try {
       console.log("Adding Course 2...");
       const tx2 = await courseManager.addCourse(2, 8);
@@ -67,7 +67,7 @@ async function main() {
         throw error;
       }
     }
-    
+
     try {
       console.log("Adding Course 3...");
       const tx3 = await courseManager.addCourse(3, 10);
@@ -84,16 +84,16 @@ async function main() {
 
     // Verify courses with correct destructuring
     console.log("\n🔍 Verifying courses...");
-    
+
     for (let i = 1; i <= 3; i++) {
       try {
         // The auto-generated getter returns: (uint256 minCoinsRequired, bool exists, uint256 currentIndex)
         // Note: availableTokenIds array is NOT returned by the auto-generated getter
         const courseData = await courseManager.courses(i);
-        
+
         // Destructure the returned values correctly
         const [minCoinsRequired, exists, currentIndex] = courseData;
-        
+
         console.log(`Course ${i}:`, {
           exists: exists,
           minCoinsRequired: minCoinsRequired.toString(),
@@ -132,13 +132,13 @@ async function main() {
 
   } catch (error) {
     console.error("\n❌ Setup failed:", error.message);
-    
+
     console.log("\n🔧 TROUBLESHOOTING:");
     console.log("1. Make sure Hardhat node is running: npx hardhat node");
     console.log("2. Verify contract is deployed: check the address");
     console.log("3. Ensure you're the contract owner");
     console.log("4. Check network connection");
-    
+
     // Additional debugging
     console.log("\n🔍 DEBUG INFO:");
     try {

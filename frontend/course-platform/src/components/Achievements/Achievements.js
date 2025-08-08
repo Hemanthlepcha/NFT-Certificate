@@ -11,15 +11,15 @@ import './Achievements.css';
 
 const Achievements = ({ onSelectCourse, setCurrentPage }) => {
   const { isConnected, userAddress } = useWeb3();
-  const { 
-    courses, 
-    completedCourses, 
-    inProgressCourses, 
-    totalStats, 
+  const {
+    courses,
+    completedCourses,
+    inProgressCourses,
+    totalStats,
     achievementLevel,
-    loading: courseLoading 
+    loading: courseLoading
   } = useCourseData();
-  const { 
+  const {
     getUserCertificates,
     getUserCoins,
     canClaimCertificate,
@@ -60,7 +60,7 @@ const Achievements = ({ onSelectCourse, setCurrentPage }) => {
             canClaimCertificate(course.id),
             hasReceivedCertificate(course.id)
           ]);
-          
+
           statuses[course.id] = {
             userCoins,
             canClaim,
@@ -100,12 +100,12 @@ const Achievements = ({ onSelectCourse, setCurrentPage }) => {
       };
       const courseName = courseNames[courseId] || `course-${courseId}`;
       const tokenURI = `https://api.courseplatform.com/certificates/${courseName}/${userAddress}/${timestamp}.json`;
-      
+
       console.log(`🏆 Manually claiming certificate for course ${courseId}`);
       await claimCertificate(courseId, tokenURI);
-      
+
       console.log('🎉 Certificate claimed successfully!');
-      
+
       // Refresh statuses after claiming
       await loadCertificatesAndStatuses();
     } catch (error) {
@@ -133,7 +133,7 @@ const Achievements = ({ onSelectCourse, setCurrentPage }) => {
     const actualCertificates = Object.values(courseStatuses).filter(status => status.hasReceived).length;
     const streak = Math.min(actualCertificates * 3, 21); // Max 21 day streak
     const lastActive = actualCertificates > 0 ? 'Today' : 'Never';
-    
+
     return { streak, lastActive };
   };
 
@@ -188,7 +188,7 @@ const Achievements = ({ onSelectCourse, setCurrentPage }) => {
           <h1 className="page-title">
             <span className="title-icon">🏆</span>
             Your Achievements
-           
+
           </h1>
           <div className="user-info">
             <span className="user-address">{formatAddress(userAddress)}</span>
@@ -411,7 +411,7 @@ const Achievements = ({ onSelectCourse, setCurrentPage }) => {
                   {courses.map(course => {
                     const status = courseStatuses[course.id] || {};
                     const { userCoins = 0, canClaim = false, hasReceived = false, isEligible = false } = status;
-                    
+
                     return (
                       <div key={course.id} className={`certificate-card ${hasReceived ? 'claimed' : canClaim ? 'claimable' : isEligible ? 'eligible' : 'not-eligible'}`}>
                         <div className="certificate-header">
@@ -425,13 +425,13 @@ const Achievements = ({ onSelectCourse, setCurrentPage }) => {
                             {hasReceived && <span className="badge-icon">✓</span>}
                           </div>
                         </div>
-                        
+
                         <div className="certificate-content">
                           <h3 className="certificate-title">{course.title}</h3>
                           <p className="certificate-description">
                             {hasReceived ? 'NFT Certificate Earned' : 'Blockchain Certificate'}
                           </p>
-                          
+
                           <div className="certificate-details">
                             <div className="detail-item">
                               <span className="detail-label">Your Coins:</span>
@@ -451,7 +451,7 @@ const Achievements = ({ onSelectCourse, setCurrentPage }) => {
                             </div>
                           </div>
                         </div>
-                        
+
                         <div className="certificate-footer">
                           {hasReceived ? (
                             <div className="claimed-status">
@@ -501,14 +501,17 @@ const Achievements = ({ onSelectCourse, setCurrentPage }) => {
 
                 {/* NFT Collection Display */}
                 {certificates.length > 0 && (
-                  <div className="nft-collection">
-                    <h3 className="section-title">🖼️ Your NFT Collection</h3>
-                    <div className="nft-grid">
+                  <div className="bg-slate-400 mt-4">
+                    <h3 className="section-title ">🖼️ Your NFT Collection</h3>
+                    <div className="bg-slate-800 p-4 rounded-lg grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                       {certificates.map((cert, index) => (
-                        <div key={cert.tokenId} className="nft-card">
-                          <div className="nft-header">
-                            <span className="nft-id">#{cert.tokenId}</span>
-                            <span className="nft-badge">NFT</span>
+                        <div key={cert.tokenId} className=" bg-slate-400">
+                          <div className="nft-header flex flex-row">
+
+                            <img className="h-8 rounded-md" src={cert.imageUrl} alt={`Certificate ${index + 1}`} />
+
+                            {/* <span className="nft-id mt">#{cert.tokenId}</span> */}
+                            {/* <span className="nft-badge">NFT</span> */}
                           </div>
                           <div className="nft-content">
                             <div className="nft-icon">🏆</div>
@@ -538,7 +541,7 @@ const Achievements = ({ onSelectCourse, setCurrentPage }) => {
                   const status = courseStatuses[course.id] || {};
                   const { userCoins = 0, hasReceived = false, canClaim = false } = status;
                   const progressPercentage = Math.min((userCoins / course.minCoinsRequired) * 100, 100);
-                  
+
                   return (
                     <div key={course.id} className="progress-item">
                       <div className="course-info">
@@ -555,7 +558,7 @@ const Achievements = ({ onSelectCourse, setCurrentPage }) => {
                           </span>
                         </div>
                         <div className="progress-bar">
-                          <div 
+                          <div
                             className="progress-fill"
                             style={{ width: `${progressPercentage}%` }}
                           />

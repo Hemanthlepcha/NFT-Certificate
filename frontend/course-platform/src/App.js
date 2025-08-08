@@ -24,7 +24,7 @@ function AppContent() {
       try {
         // Simulate initial loading
         await new Promise(resolve => setTimeout(resolve, 1000));
-        
+
         // Run debug in development
         if (process.env.NODE_ENV === 'development') {
           console.log('🔧 Running contract debug...');
@@ -32,10 +32,10 @@ function AppContent() {
             debugContract();
           }, 2000); // Wait for wallet connection
         }
-        
+
         // Load any initial data
         await loadUserProgress();
-        
+
       } catch (error) {
         console.error('Error initializing app:', error);
       } finally {
@@ -60,7 +60,7 @@ function AppContent() {
   // Handle page navigation
   const handlePageChange = (page) => {
     setCurrentPage(page);
-    
+
     // Clear selected course when navigating away from course detail
     if (page !== 'course-detail') {
       setSelectedCourse(null);
@@ -99,8 +99,8 @@ function AppContent() {
   return (
     <div className="App">
       {/* Header Navigation */}
-      <Header 
-        currentPage={currentPage} 
+      <Header
+        currentPage={currentPage}
         setCurrentPage={handlePageChange}
       />
 
@@ -138,10 +138,10 @@ function AppContent() {
               <div className="error-icon">⚠️</div>
               <h2 className="error-title">Course Not Found</h2>
               <p className="error-description">
-                The course you're looking for couldn't be found. 
+                The course you're looking for couldn't be found.
                 Please go back to the course list and try again.
               </p>
-              <button 
+              <button
                 className="error-button"
                 onClick={() => handlePageChange('courses')}
               >
@@ -161,7 +161,7 @@ function AppContent() {
               Learn blockchain technology and earn NFT certificates
             </p>
           </div>
-          
+
           <div className="footer-section">
             <h4 className="footer-heading">Features</h4>
             <ul className="footer-links">
@@ -171,7 +171,7 @@ function AppContent() {
               <li>Achievement System</li>
             </ul>
           </div>
-          
+
           <div className="footer-section">
             <h4 className="footer-heading">Getting Started</h4>
             <ul className="footer-links">
@@ -181,7 +181,7 @@ function AppContent() {
               <li>Claim Certificates</li>
             </ul>
           </div>
-          
+
           <div className="footer-section">
             <h4 className="footer-heading">Connect</h4>
             <div className="footer-social">
@@ -191,7 +191,7 @@ function AppContent() {
             </div>
           </div>
         </div>
-        
+
         <div className="footer-bottom">
           <div className="footer-bottom-content">
             <span className="copyright">
